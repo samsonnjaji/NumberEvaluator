@@ -1,10 +1,11 @@
 //Name: Njaji Sibona Samson
 //Reg.no: 23/05541
 //BSD
-                             // BSD 2304:ADVANCED JAVA PROGRAMMING
-
+// Github link: https://github.com/samsonnjaji/NumberEvaluator
+// BSD 2304:ADVANCED JAVA PROGRAMMING
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -14,98 +15,137 @@ public class NumberEvaluator extends JFrame implements ActionListener, KeyListen
     private JButton clearButton;
     private JLabel resultLabel;
     private JLabel instructionLabel;
+    private JLabel headerLabel;
     private JScrollPane scrollPane;
     private JPanel mainPanel;
 
     public NumberEvaluator() {
-        initializeComponents();
-        layoutComponents();
-        addEventListeners();
-        configureFrame();
+        setupInterface();
+        createLayout();
+        wireEvents();
+        initializeWindow();
     }
 
-    private void initializeComponents() {
-        instructionLabel = new JLabel("Enter a number to evaluate:");
-        inputField = new JTextField(20);
+    private void setupInterface() {
+        headerLabel = new JLabel("Number Evaluator Tool");
+        instructionLabel = new JLabel("Enter any number below:");
+        inputField = new JTextField(22);
         checkButton = new JButton("Check Number");
         clearButton = new JButton("Clear");
-        resultLabel = new JLabel("Result will appear here");
+        resultLabel = new JLabel("Ready to check your number...");
 
-        inputField.setFont(new Font("Arial", Font.PLAIN, 16));
-        checkButton.setFont(new Font("Arial", Font.BOLD, 14));
-        clearButton.setFont(new Font("Arial", Font.BOLD, 14));
-        resultLabel.setFont(new Font("Arial", Font.ITALIC, 15));
-        instructionLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        headerLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+        instructionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        inputField.setFont(new Font("Courier New", Font.PLAIN, 16));
+        checkButton.setFont(new Font("Arial", Font.BOLD, 13));
+        clearButton.setFont(new Font("Arial", Font.BOLD, 13));
+        resultLabel.setFont(new Font("Verdana", Font.ITALIC, 14));
+
+        headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        instructionLabel.setHorizontalAlignment(SwingConstants.CENTER);
         resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        checkButton.setBackground(new Color(34, 139, 34));
+        headerLabel.setForeground(new Color(51, 102, 153));
+        instructionLabel.setForeground(new Color(102, 102, 102));
+        resultLabel.setForeground(new Color(85, 85, 85));
+        checkButton.setBackground(new Color(60, 179, 113));
         checkButton.setForeground(Color.WHITE);
         checkButton.setOpaque(true);
         checkButton.setBorderPainted(false);
         checkButton.setFocusPainted(false);
 
-        clearButton.setBackground(new Color(255, 69, 0));
+        clearButton.setBackground(new Color(220, 53, 69));
         clearButton.setForeground(Color.WHITE);
         clearButton.setOpaque(true);
         clearButton.setBorderPainted(false);
         clearButton.setFocusPainted(false);
 
-        resultLabel.setForeground(new Color(25, 25, 112));
+        inputField.setBackground(new Color(250, 250, 250));
+        inputField.setBorder(new LineBorder(new Color(204, 204, 204), 2));
+        inputField.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
-    private void layoutComponents() {
+    private void createLayout() {
         mainPanel = new JPanel();
+        mainPanel.setBackground(new Color(245, 245, 245));
         mainPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints constraints = new GridBagConstraints();
 
-        gbc.gridx = 0; gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(20, 20, 15, 20);
-        gbc.anchor = GridBagConstraints.CENTER;
-        mainPanel.add(instructionLabel, gbc);
+        constraints.gridx = 0; constraints.gridy = 0;
+        constraints.gridwidth = 2;
+        constraints.insets = new Insets(25, 30, 10, 30);
+        constraints.anchor = GridBagConstraints.CENTER;
+        mainPanel.add(headerLabel, constraints);
 
-        gbc.gridx = 0; gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 20, 15, 20);
-        mainPanel.add(inputField, gbc);
+        constraints.gridx = 0; constraints.gridy = 1;
+        constraints.gridwidth = 2;
+        constraints.insets = new Insets(5, 30, 20, 30);
+        mainPanel.add(instructionLabel, constraints);
 
-        gbc.gridx = 0; gbc.gridy = 2;
-        gbc.gridwidth = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 20, 15, 10);
-        mainPanel.add(checkButton, gbc);
+        constraints.gridx = 0; constraints.gridy = 2;
+        constraints.gridwidth = 2;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.insets = new Insets(10, 40, 20, 40);
+        mainPanel.add(inputField, constraints);
 
-        gbc.gridx = 1; gbc.gridy = 2;
-        gbc.gridwidth = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 10, 15, 20);
-        mainPanel.add(clearButton, gbc);
+        constraints.gridx = 0; constraints.gridy = 3;
+        constraints.gridwidth = 1;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.insets = new Insets(10, 40, 10, 15);
+        constraints.ipadx = 10; constraints.ipady = 8;
+        mainPanel.add(checkButton, constraints);
 
-        gbc.gridx = 0; gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(15, 20, 20, 20);
-        mainPanel.add(resultLabel, gbc);
+        constraints.gridx = 1; constraints.gridy = 3;
+        constraints.gridwidth = 1;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.insets = new Insets(10, 15, 10, 40);
+        constraints.ipadx = 10; constraints.ipady = 8;
+        mainPanel.add(clearButton, constraints);
+
+        constraints.gridx = 0; constraints.gridy = 4;
+        constraints.gridwidth = 2;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.insets = new Insets(20, 40, 25, 40);
+        constraints.ipadx = 0; constraints.ipady = 0;
+        mainPanel.add(resultLabel, constraints);
 
         scrollPane = new JScrollPane(mainPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setBorder(null);
         add(scrollPane);
     }
 
-    private void addEventListeners() {
+    private void wireEvents() {
         checkButton.addActionListener(this);
         clearButton.addActionListener(this);
         inputField.addKeyListener(this);
+
+        checkButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                checkButton.setBackground(new Color(72, 191, 125));
+            }
+            public void mouseExited(MouseEvent evt) {
+                checkButton.setBackground(new Color(60, 179, 113));
+            }
+        });
+
+        clearButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                clearButton.setBackground(new Color(232, 65, 81));
+            }
+            public void mouseExited(MouseEvent evt) {
+                clearButton.setBackground(new Color(220, 53, 69));
+            }
+        });
     }
 
-    private void configureFrame() {
-        setTitle("Number Evaluator");
+    private void initializeWindow() {
+        setTitle("Number Evaluator - Advanced Java Programming");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 280);
+        setSize(480, 350);
         setResizable(true);
-        setMinimumSize(new Dimension(350, 250));
+        setMinimumSize(new Dimension(420, 320));
         setLocationRelativeTo(null);
         inputField.requestFocusInWindow();
     }
@@ -113,16 +153,16 @@ public class NumberEvaluator extends JFrame implements ActionListener, KeyListen
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == checkButton) {
-            evaluateNumber();
+            checkTheNumber();
         } else if (e.getSource() == clearButton) {
-            clearFields();
+            resetEverything();
         }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            evaluateNumber();
+            checkTheNumber();
         }
     }
 
@@ -132,34 +172,34 @@ public class NumberEvaluator extends JFrame implements ActionListener, KeyListen
     @Override
     public void keyReleased(KeyEvent e) {}
 
-    private void evaluateNumber() {
-        String input = inputField.getText().trim();
+    private void checkTheNumber() {
+        String userInput = inputField.getText().trim();
 
-        if (input.isEmpty()) {
-            displayResult("Please enter a value!", Color.RED);
+        if (userInput.isEmpty()) {
+            showResult("Please enter a value to check!", new Color(204, 0, 0));
             return;
         }
 
         try {
-            double number = Double.parseDouble(input);
-            String result;
-            Color color;
+            double num = Double.parseDouble(userInput);
+            String message;
+            Color messageColor;
 
-            if (number > 0) {
-                result = input + " is a POSITIVE number\nGreat! You entered a positive value.";
-                color = new Color(0, 128, 0);
-            } else if (number < 0) {
-                result = input + " is a NEGATIVE number\nThis value is less than zero.";
-                color = new Color(220, 20, 60);
+            if (num > 0) {
+                message = userInput + " is POSITIVE";
+                messageColor = new Color(34, 139, 34);
+            } else if (num < 0) {
+                message = userInput + " is NEGATIVE";
+                messageColor = new Color(178, 34, 34);
             } else {
-                result = "The number is ZERO\nThis is neither positive nor negative.";
-                color = new Color(25, 25, 112);
+                message = "The number is ZERO";
+                messageColor = new Color(0, 100, 200);
             }
 
-            displayResult(result, color);
+            showResult(message, messageColor);
 
-        } catch (NumberFormatException e) {
-            displayResult("Error: '" + input + "' is not a valid number\nPlease enter numbers only (e.g., 123, -45, 3.14,0 ,+9,-9)", Color.RED);
+        } catch (NumberFormatException ex) {
+            showResult("Invalid input! Please enter a valid number.", new Color(204, 0, 0));
         }
 
         mainPanel.revalidate();
@@ -167,16 +207,21 @@ public class NumberEvaluator extends JFrame implements ActionListener, KeyListen
         scrollPane.revalidate();
     }
 
-    private void displayResult(String message, Color color) {
-        resultLabel.setText("<html><div style='text-align: center;'>" +
-                message.replace("\n", "<br>") + "</div></html>");
-        resultLabel.setForeground(color);
+    private void showResult(String text, Color textColor) {
+        resultLabel.setText("<html><center><b>" + text + "</b></center></html>");
+        resultLabel.setForeground(textColor);
+
+        resultLabel.setBorder(BorderFactory.createCompoundBorder(
+                new LineBorder(textColor, 1),
+                BorderFactory.createEmptyBorder(8, 12, 8, 12)
+        ));
     }
 
-    private void clearFields() {
+    private void resetEverything() {
         inputField.setText("");
-        resultLabel.setText("Result will appear here");
-        resultLabel.setForeground(new Color(25, 25, 112));
+        resultLabel.setText("Ready to check your number...");
+        resultLabel.setForeground(new Color(85, 85, 85));
+        resultLabel.setBorder(null);
         inputField.requestFocusInWindow();
 
         mainPanel.revalidate();
@@ -184,14 +229,14 @@ public class NumberEvaluator extends JFrame implements ActionListener, KeyListen
     }
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+        }
+
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 new NumberEvaluator().setVisible(true);
             }
         });
